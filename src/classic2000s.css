@@ -1,3 +1,4 @@
+@import './styles/variables.css';
 /* Ensure tweet avatar container and header do not clip the image */
 .featured-tweets .react-tweet-theme .react-tweet-header {
   overflow: visible !important;
@@ -37,7 +38,6 @@
   margin: var(--space-xl) 0 var(--space-md) 0;
   letter-spacing: var(--spacing-heading);
 }
-@import './styles/variables.css';
 
 /* Clean, readable typography */
 body {

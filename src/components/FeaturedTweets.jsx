@@ -16,8 +16,11 @@ export default function FeaturedTweets() {
     let cancelled = false;
     (async () => {
       try {
-        const base = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-        const res = await fetch(`${base}/api/featured-tweets`);
+        let base = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+        if (base && !base.endsWith('/api')) {
+          base = base + '/api';
+        }
+        const res = await fetch(`${base}/featured-tweets`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         if (!cancelled) setUrls((data || []).map((d) => d.url).slice(0, 5));

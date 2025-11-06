@@ -98,7 +98,13 @@ export default function BlogPost() {
 
     const fetchPost = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/blogs/${id}`);
+        // Use remote backend API URL
+        let apiUrl = import.meta.env.VITE_API_URL;
+        // If VITE_API_URL already ends with /api, don't add it again
+        if (apiUrl && !apiUrl.endsWith('/api')) {
+          apiUrl = apiUrl + '/api';
+        }
+        const response = await fetch(`${apiUrl}/blogs/${id}`);
         if (!response.ok) {
           throw new Error(
             response.status === 404 
