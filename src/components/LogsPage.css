@@ -1,0 +1,92 @@
+/* Consistent layout with BlogsPage */
+.logs-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-lg);
+}
+
+.log-title {
+  font-family: var(--font-heading);
+  font-size: var(--size-title);
+  font-weight: var(--weight-bold);
+  margin-bottom: var(--space-lg);
+  color: var(--color-text);
+  letter-spacing: var(--spacing-heading);
+  border-bottom: var(--border-thin) solid var(--color-border);
+  padding-bottom: var(--space-sm);
+  line-height: var(--line-height-title);
+}
+
+.log-tabs {
+  display: flex;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-xl);
+  padding-bottom: var(--space-md);
+  border-bottom: var(--border-thin) solid var(--color-border);
+}
+
+.log-tab {
+  color: var(--color-text-light);
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-size: var(--size-small);
+  transition: color var(--transition-speed) ease;
+}
+
+.log-tab:hover {
+  color: var(--color-text);
+}
+
+.log-tab-active {
+  color: var(--color-text);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  font-weight: var(--weight-medium);
+}
+
+.log-entry {
+  margin-bottom: var(--space-2xl);
+  padding-bottom: var(--space-lg);
+  border-bottom: var(--border-thin) solid var(--color-border);
+}
+
+.log-entry:last-child {
+  border-bottom: none;
+}
+
+.log-entry-title {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: var(--weight-bold);
+  color: var(--color-text);
+  margin-bottom: var(--space-xs);
+  letter-spacing: var(--spacing-heading);
+}
+
+.post-date {
+  font-size: var(--size-caption);
+  color: var(--color-text-light);
+  margin-bottom: var(--space-sm);
+  font-family: var(--font-body);
+  font-style: italic;
+}
+
+.log-entry-details {
+  font-family: var(--font-body);
+  font-size: var(--size-small);
+  color: var(--color-text-light);
+  margin-top: var(--space-xs);
+}
+
+.log-detail {
+  margin-bottom: var(--space-2xs);
+}
+
+@media (max-width: 768px) {
+  .logs-container {
+    padding: var(--space-md);
+  }
+  .log-entry-title {
+    font-size: 1.25rem;
+  }
+}

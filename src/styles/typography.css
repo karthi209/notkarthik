@@ -1,0 +1,89 @@
+/* Base typography styles */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--color-text);
+  line-height: 1.1;
+}
+
+h1 {
+  font-size: var(--size-title-large);
+  letter-spacing: var(--spacing-title);
+  margin-bottom: var(--space-xl);
+  font-weight: var(--weight-extra-bold);
+}
+
+h2 {
+  font-size: var(--size-title);
+  letter-spacing: var(--spacing-heading);
+  margin-top: var(--space-2xl);
+  margin-bottom: var(--space-lg);
+  font-weight: var(--weight-bold);
+}
+
+h3 {
+  font-size: var(--size-subtitle);
+  letter-spacing: var(--spacing-heading);
+  margin-top: var(--space-xl);
+  margin-bottom: var(--space-md);
+  font-weight: var(--weight-medium);
+}
+
+p {
+  margin-bottom: var(--space-md);
+  font-family: var(--font-body);
+  line-height: 1.8;
+}
+
+/* Links */
+a {
+  color: var(--color-text);
+  text-decoration: none;
+  transition: all var(--transition-speed) ease;
+}
+
+a:hover {
+  color: var(--color-text);
+  opacity: 0.8;
+}
+
+/* Lists */
+ul, ol {
+  margin-bottom: var(--space-lg);
+  padding-left: var(--space-xl);
+}
+
+li {
+  margin-bottom: var(--space-xs);
+}
+
+/* Block elements */
+blockquote {
+  font-family: var(--font-body);
+  font-style: italic;
+  padding-left: var(--space-lg);
+  margin: var(--space-lg) 0;
+  border-left: var(--border-regular) solid var(--border-color);
+  color: var(--color-text-light);
+}
+
+hr {
+  border: 0;
+  height: var(--border-thin);
+  background: var(--border-color);
+  margin: var(--space-xl) 0;
+}
+
+/* Code blocks */
+pre, code {
+  font-family: var(--font-mono);
+  font-size: var(--size-small);
+  line-height: 1.6;
+}
+
+pre {
+  padding: var(--space-md);
+  margin: var(--space-lg) 0;
+  background: var(--color-hover);
+  border-radius: var(--border-radius);
+  overflow-x: auto;
+}

@@ -1,0 +1,117 @@
+/* Book-like typography */
+.post-title {
+  font-family: var(--font-heading);
+  font-size: var(--size-title);
+  font-weight: var(--weight-medium);
+  line-height: var(--line-height-title);
+  color: var(--color-text);
+  text-align: left;
+  margin-bottom: var(--space-md);
+  letter-spacing: -0.01em;
+}
+
+.post-date {
+  font-family: var(--font-body);
+  font-size: var(--size-caption);
+  color: var(--color-text-light);
+  font-style: italic;
+  margin-bottom: var(--space-lg);
+  text-align: left;
+}
+
+.post-content {
+  font-family: var(--font-body);
+  font-size: var(--size-body);
+  line-height: var(--line-height-body);
+  color: var(--color-text);
+  margin-bottom: var(--space-xl);
+  
+  & p {
+    margin-bottom: calc(var(--space-md) * var(--paragraph-spacing));
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  & h2 {
+    font-size: var(--size-subtitle);
+    font-weight: var(--weight-medium);
+    margin-top: var(--space-xl);
+    margin-bottom: var(--space-md);
+  }
+
+  & h3 {
+    font-size: var(--size-body);
+    font-weight: var(--weight-bold);
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-sm);
+  }
+
+  & blockquote {
+    font-style: italic;
+    border-left: 3px solid var(--color-accent);
+    padding-left: var(--space-lg);
+    margin: var(--space-lg) 0;
+    color: var(--color-text-light);
+  }
+
+  & ul, & ol {
+    margin: var(--space-md) 0 var(--space-lg) var(--space-lg);
+  }
+
+  & li {
+    margin-bottom: var(--space-xs);
+    line-height: var(--line-height-body);
+  }
+
+  & pre {
+    font-family: var(--font-mono);
+    font-size: var(--size-small);
+    line-height: 1.6;
+    padding: var(--space-md);
+    margin: var(--space-lg) 0;
+    background: var(--color-hover);
+    border-left: 3px solid var(--color-accent);
+  }
+}
+
+/* First paragraph special styling */
+.post-content p:first-of-type::first-letter {
+  font-size: 3.5em;
+  float: left;
+  margin-right: 0.1em;
+  line-height: 0.68;
+  color: var(--color-accent);
+  font-family: var(--font-heading);
+  font-weight: var(--weight-bold);
+}
+
+/* Elegant horizontal rule */
+hr {
+  border: none;
+  border-top: var(--border-thin) solid var(--color-border);
+  margin: var(--space-xl) auto;
+  width: 38.2%;  /* Golden ratio */
+}
+
+/* Chapter-like sections */
+.post {
+  padding-bottom: var(--space-2xl);
+  margin-bottom: var(--space-2xl);
+  border-bottom: var(--border-thin) solid var(--color-border);
+  
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+/* Navigation and site title styles moved to classic2000s.css */
+
+/* Drop caps and decorative elements */
+@media (min-width: 768px) {
+  .post-content {
+    & > p:first-of-type::first-line {
+      font-variant: small-caps;
+      letter-spacing: 0.06em;
+    }
+  }
+}

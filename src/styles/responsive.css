@@ -1,0 +1,54 @@
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .header {
+    flex-direction: column;
+    text-align: center;
+    padding: var(--space-md) 0;
+  }
+
+  .header-container {
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .site-title {
+    margin-bottom: var(--space-sm);
+  }
+
+  .navigation {
+    margin-left: 0;
+    justify-content: center;
+    
+    & a {
+      margin: 0 var(--space-xs);
+      font-size: var(--size-caption);
+    }
+  }
+
+
+  :root {
+    --page-margin: 5%;
+  }
+
+  .post-title {
+    font-size: 2rem;
+  }
+
+  .blog-title {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .post-title {
+    font-size: 1.75rem;
+  }
+
+  .blog-title {
+    font-size: 1.75rem;
+  }
+
+  .blog-post .post-title {
+    font-size: 1.75rem;
+  }
+}
