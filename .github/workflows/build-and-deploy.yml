@@ -230,8 +230,6 @@ jobs:
               -e DB_HOST="${{ secrets.DB_HOST }}" \
               -e DB_PORT="${{ secrets.DB_PORT }}" \
               -e DB_NAME="${{ secrets.DB_NAME }}" \
-              -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
-              -e SESSION_SECRET="${{ secrets.SESSION_SECRET }}" \
               ghcr.io/${{ github.repository_owner }}/portfolio-site/backend:${{ env.BACKEND_VERSION_TO_DEPLOY }}
             docker update --restart unless-stopped backend-portfolio
           EOF
