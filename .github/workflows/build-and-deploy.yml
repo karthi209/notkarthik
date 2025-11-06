@@ -160,7 +160,7 @@ jobs:
             docker rmi $(docker images ghcr.io/${{ github.repository_owner }}/portfolio-site/frontend -q) || true
             docker network inspect network-onesandzeros > /dev/null 2>&1 || docker network create network-onesandzeros
             docker pull ghcr.io/${{ github.repository_owner }}/portfolio-site/frontend:${{ env.FRONTEND_VERSION_TO_DEPLOY }}
-            docker run -d --name frontend-portfolio -p 5172:5173 --network network-onesandzeros ghcr.io/${{ github.repository_owner }}/portfolio-site/frontend:${{ env.FRONTEND_VERSION_TO_DEPLOY }}
+            docker run -d --name frontend-portfolio -p 5172:5173 -e VITE_ADMIN_USERNAME="${{ secrets.VITE_ADMIN_USERNAME }}" -e VITE_ADMIN_PASSWORD="${{ secrets.VITE_ADMIN_PASSWORD }}" -e VITE_API_URL="${{ secrets.VITE_API_URL }}" --network network-onesandzeros ghcr.io/${{ github.repository_owner }}/portfolio-site/frontend:${{ env.FRONTEND_VERSION_TO_DEPLOY }}
             docker update --restart unless-stopped frontend-portfolio
           EOF
 
