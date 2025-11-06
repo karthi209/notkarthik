@@ -128,3 +128,158 @@ li {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-text-light);
 }
+
+/* Mobile optimizations for blog posts */
+@media (max-width: 768px) {
+  article.post {
+    padding: var(--space-md);
+  }
+
+  article.post .post-title {
+    font-size: 1.5rem;
+    line-height: 1.3;
+  }
+
+  h2, h3, h4 {
+    margin-top: var(--space-lg);
+  }
+
+  pre {
+    font-size: 0.75rem;
+    padding: var(--space-sm);
+    margin: var(--space-md) 0;
+    border-radius: 8px;
+  }
+
+  code {
+    font-size: 0.8rem;
+    padding: 2px 4px;
+  }
+
+  blockquote {
+    padding: var(--space-xs) var(--space-sm);
+    margin: var(--space-md) 0;
+    font-size: 0.95rem;
+  }
+
+  img {
+    margin: var(--space-md) 0;
+    border-radius: var(--border-radius);
+  }
+
+  table {
+    font-size: 0.85rem;
+  }
+
+  th, td {
+    padding: var(--space-2xs) var(--space-xs);
+  }
+}
+
+@media (max-width: 640px) {
+  article.post {
+    padding: 0;
+    margin: 0;
+  }
+
+  article.post .post-title {
+    font-size: 1.75rem;
+    line-height: 1.3;
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+
+  .post-date {
+    font-size: 0.875rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .post-content {
+    font-size: 1rem;
+    line-height: 1.75;
+    letter-spacing: 0.01em;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    line-height: 1.3;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    line-height: 1.3;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+  }
+
+  h4 {
+    font-size: 1.125rem;
+    line-height: 1.3;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+  }
+
+  pre {
+    font-size: 0.875rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 1rem;
+    margin: 1.5rem 0;
+    border-radius: 12px;
+  }
+
+  code {
+    font-size: 0.875rem;
+  }
+
+  blockquote {
+    padding: 0.75rem 1rem;
+    margin: 1.5rem 0;
+    font-size: 1rem;
+    border-radius: 8px;
+  }
+
+  /* Better table scrolling on mobile */
+  table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    font-size: 0.938rem;
+  }
+
+  ul, ol {
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  li {
+    margin-bottom: 0.75rem;
+    line-height: 1.75;
+  }
+
+  .post-footer {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+  }
+
+  .post-footer-main {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .post-content p {
+    margin-bottom: 1.25rem;
+  }
+
+  .post-content a {
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+}

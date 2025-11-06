@@ -66,3 +66,12 @@
   /* Other */
   --transition-speed: 0.3s;
 }
+
+[data-theme="dark"] :root {
+  --color-text: #e3e3e3;
+  --color-text-light: #a0a0a0;
+  --color-border: #333;
+  --color-background: #181a1b;
+  --color-hover: rgba(255,255,255,0.03);
+  --color-accent: #4f8cff;
+}

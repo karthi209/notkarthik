@@ -90,3 +90,75 @@
     font-size: 1.25rem;
   }
 }
+
+@media (max-width: 640px) {
+  .logs-container {
+    padding: 0;
+  }
+
+  .log-title {
+    font-size: 1.75rem;
+    padding: 0;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+    font-weight: 700;
+  }
+
+  .log-tabs {
+    padding: 0;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .log-tab {
+    font-size: 0.95rem;
+    padding: 0.75rem 1.25rem;
+    background: var(--color-hover);
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+    min-height: 48px;
+    font-weight: 500;
+  }
+
+  .log-tab-active {
+    background: var(--color-accent);
+    color: var(--color-background);
+    border-color: var(--color-accent);
+    font-weight: 600;
+  }
+
+  .log-entry {
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+    border-radius: 12px;
+    background: var(--color-hover);
+    border: 1px solid var(--color-border);
+  }
+
+  .log-entry:last-child {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .log-entry-title {
+    font-size: 1.375rem;
+    line-height: 1.3;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  .log-entry-details {
+    font-size: 0.938rem;
+    line-height: 1.6;
+  }
+
+  .log-detail {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+
+  .post-date {
+    font-size: 0.875rem;
+    margin-bottom: 0.75rem;
+  }
+}

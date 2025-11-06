@@ -4,11 +4,10 @@ import BlogsPage from './BlogsPage';
 import LogsPage from './LogsPage';
 import AboutPage from './AboutPage';
 import BlogPost from './BlogPost';
-import ElfsightTwitter from './ElfsightTwitter';
 import FeaturedTweets from './FeaturedTweets';
 import AdminPanel from './AdminPanel';
 import { fetchBlogs, fetchLogs } from '../services/api';
-import '../classic2000s.css';
+import '../styles/classic2000s.css';
 
 export default function Home({ themeToggleButton }) {
   const navigate = useNavigate();
@@ -16,6 +15,7 @@ export default function Home({ themeToggleButton }) {
   const [activePage, setActivePage] = useState('home');
   const [activeLogTab, setActiveLogTab] = useState('games');
   const [loading, setLoading] = useState(true);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [entries, setEntries] = useState({
     blogs: [],
     games: [],
@@ -205,18 +205,30 @@ export default function Home({ themeToggleButton }) {
     <div>
       <header className="header">
         <div className="header-container">
-          <h1 
-            onClick={() => {
-              setActivePage('home');
-              navigate('/');
-            }}
-            className="site-title"
-          >
-            <span className="site-title-main">notkarthik</span>
-            <span className="site-title-separator"> // </span>
-            <span className="site-title-subtitle">thoughts and chaos</span>
-          </h1>
-          <nav className="navigation" style={{ display: 'flex', alignItems: 'center' }}>
+          <div className="header-top">
+            <h1 
+              onClick={() => {
+                setActivePage('home');
+                navigate('/');
+                setMobileMenuOpen(false);
+              }}
+              className="site-title"
+            >
+              <span className="site-title-main">notkarthik</span>
+              <span className="site-title-separator"> // </span>
+              <span className="site-title-subtitle">thoughts and chaos</span>
+            </h1>
+            
+            <button 
+              className="mobile-menu-toggle"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle navigation menu"
+            >
+              {mobileMenuOpen ? '✕' : '☰'}
+            </button>
+          </div>
+          
+          <nav className={`navigation ${mobileMenuOpen ? 'mobile-open' : ''}`} style={{ display: 'flex', alignItems: 'center' }}>
             {mainNavigation.map((item, idx) => (
               <a
                 key={item.id}
@@ -225,6 +237,7 @@ export default function Home({ themeToggleButton }) {
                   e.preventDefault();
                   setActivePage(item.id);
                   navigate(`/${item.id === 'home' ? '' : item.id}`);
+                  setMobileMenuOpen(false);
                 }}
                 className={activePage === item.id ? 'nav-link-active' : 'nav-link'}
               >
