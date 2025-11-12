@@ -45,7 +45,7 @@ export const initDatabase = async () => {
       CREATE TABLE IF NOT EXISTS logs (
         id SERIAL PRIMARY KEY,
         title VARCHAR(255) NOT NULL,
-        type VARCHAR(50) NOT NULL CHECK (type IN ('games', 'movies', 'series', 'books')),
+        type VARCHAR(50) NOT NULL CHECK (type IN ('music', 'games', 'movies', 'series', 'books')),
         content TEXT,
         rating VARCHAR(50),
         status VARCHAR(100),

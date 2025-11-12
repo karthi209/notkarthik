@@ -1,10 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import BlogsPage from './BlogsPage';
-import LogsPage from './LogsPage';
-import AboutPage from './AboutPage';
+import ThoughtsPage from './ThoughtsPage';
+import WhoamiPage from './WhoamiPage';
+import MyversePage from './MyversePage';
+import MusicLibrary from './MusicLibrary';
+import GamesLibrary from './GamesLibrary';
+import ScreenLibrary from './ScreenLibrary';
+import ReadsLibrary from './ReadsLibrary';
+import FieldnotesPage from './FieldnotesPage';
+import LabPage from './LabPage';
 import BlogPost from './BlogPost';
-import FeaturedTweets from './FeaturedTweets';
+import LogDetail from './LogDetail';
 import AdminPanel from './AdminPanel';
 import { fetchBlogs, fetchLogs } from '../services/api';
 import '../styles/classic2000s.css';
@@ -16,6 +22,8 @@ export default function Home({ themeToggleButton }) {
   const [activeLogTab, setActiveLogTab] = useState('games');
   const [loading, setLoading] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [myverseDropdownOpen, setMyverseDropdownOpen] = useState(false);
+  const [myverseDropdownMobileOpen, setMyverseDropdownMobileOpen] = useState(false);
   const [entries, setEntries] = useState({
     blogs: [],
     games: [],
@@ -24,14 +32,15 @@ export default function Home({ themeToggleButton }) {
     books: []
   });
   
-  // Check if we're on a blog post page
-  const isBlogPostPage = location.pathname.startsWith('/blog/');
+  // Check if we're on a blog/thoughts post page
+  const isBlogPostPage = location.pathname.startsWith('/blog/') || location.pathname.startsWith('/thoughts/');
   const isAdminPage = location.pathname.startsWith('/admin');
+  const isLogDetailPage = location.pathname.startsWith('/myverse/') && location.pathname.split('/').length > 3;
   
   // Update active page based on URL - default to home
   useEffect(() => {
-    if (isBlogPostPage) {
-      return; // Don't change active page for blog posts
+    if (isBlogPostPage || isLogDetailPage) {
+      return; // Don't change active page for blog posts or log details
     }
     if (isAdminPage) {
       return; // Keep navigation untouched on admin
@@ -39,25 +48,42 @@ export default function Home({ themeToggleButton }) {
     
     if (location.pathname === '/' || location.pathname === '') {
       setActivePage('home');
-    } else if (location.pathname === '/blogs' || location.pathname.startsWith('/blogs')) {
-      setActivePage('blogs');
-    } else if (location.pathname === '/logs' || location.pathname.startsWith('/logs')) {
-      setActivePage('logs');
-    } else if (location.pathname === '/about' || location.pathname.startsWith('/about')) {
-      setActivePage('about');
-    } else if (!location.pathname.startsWith('/blog/')) {
+    } else if (location.pathname === '/thoughts' || location.pathname.startsWith('/thoughts')) {
+      setActivePage('thoughts');
+    } 
+    else if (location.pathname === '/myverse' || location.pathname.startsWith('/myverse')) {
+      setActivePage('myverse');
+    } else if (location.pathname === '/fieldnotes' || location.pathname.startsWith('/fieldnotes')) {
+      setActivePage('fieldnotes');
+    } else if (location.pathname === '/lab' || location.pathname.startsWith('/lab')) {
+      setActivePage('lab');
+    } else if (location.pathname === '/whoami' || location.pathname.startsWith('/whoami')) {
+      setActivePage('whoami');
+    } else if (!location.pathname.startsWith('/blog/') && !location.pathname.startsWith('/thoughts/')) {
       // Default to home if path doesn't match (except blog posts)
       setActivePage('home');
       if (location.pathname !== '/') {
         navigate('/', { replace: true });
       }
     }
-  }, [location.pathname, isBlogPostPage, isAdminPage, navigate]);
+  }, [location.pathname, isBlogPostPage, isLogDetailPage, isAdminPage, navigate]);
+
+  const renderLibraryPage = () => {
+    const path = location.pathname;
+    if (path.includes('/myverse/music')) return <MusicLibrary />;
+    if (path.includes('/myverse/games')) return <GamesLibrary />;
+    if (path.includes('/myverse/screen')) return <ScreenLibrary />;
+    if (path.includes('/myverse/reads')) return <ReadsLibrary />;
+    return <MyversePage />;
+  };
   
   const mainNavigation = [
-    { id: 'home', name: 'home' },
-    { id: 'blogs', name: 'blogs' },
-    { id: 'about', name: 'about' },
+    { id: 'home', name: 'Home', symbol: '◉' },
+    { id: 'thoughts', name: 'Thoughts', symbol: '◈' },
+    { id: 'myverse', name: 'Myverse', symbol: '⬢' },
+    { id: 'fieldnotes', name: 'Fieldnotes', symbol: '◐' },
+    { id: 'lab', name: 'Lab', symbol: '⊙' },
+    { id: 'whoami', name: 'Whoami', symbol: '◆' },
   ];
   
   const logTabs = [
@@ -91,12 +117,12 @@ export default function Home({ themeToggleButton }) {
       }
     };
 
-    if (!isBlogPostPage) {
+    if (!isBlogPostPage && !isLogDetailPage) {
       fetchData();
     } else {
       setLoading(false);
     }
-  }, [isBlogPostPage]);
+  }, [isBlogPostPage, isLogDetailPage]);
 
   const getActiveLogEntries = () => {
     return entries[activeLogTab] || [];
@@ -125,7 +151,70 @@ export default function Home({ themeToggleButton }) {
     return (
       <div className="homepage-layout">
         <div className="homepage-main">
-          <div className="post">
+          <div className="hero-banner">
+            <div className="geometric-hero">
+              {/* Central sun */}
+              <div className="geo-circle">☉</div>
+              
+              {/* 7 orbital rings */}
+              <div className="geo-orbit orbit-1"></div>
+              <div className="geo-orbit orbit-2"></div>
+              <div className="geo-orbit orbit-3"></div>
+              <div className="geo-orbit orbit-4"></div>
+              <div className="geo-orbit orbit-5"></div>
+              <div className="geo-orbit orbit-6"></div>
+              <div className="geo-orbit orbit-7"></div>
+              
+              {/* Elliptical paths */}
+              <div className="geo-ellipse ellipse-1"></div>
+              <div className="geo-ellipse ellipse-2"></div>
+              <div className="geo-ellipse ellipse-3"></div>
+              
+              {/* Planetary bodies with symbols */}
+              <div className="geo-planet planet-1">☿</div>
+              <div className="geo-planet planet-2">♀</div>
+              <div className="geo-planet planet-3">⊕</div>
+              <div className="geo-planet planet-4">♂</div>
+              <div className="geo-planet planet-5">♃</div>
+              <div className="geo-planet planet-6">♄</div>
+              <div className="geo-planet planet-7">♅</div>
+              <div className="geo-planet planet-8">♆</div>
+              
+              {/* Earth marker */}
+              <div className="earth-marker">
+                <div className="marker-text">← You're here</div>
+              </div>
+              
+              {/* Asteroid belt dots */}
+              <div className="asteroid-belt">
+                <div className="asteroid a1">·</div>
+                <div className="asteroid a2">·</div>
+                <div className="asteroid a3">·</div>
+                <div className="asteroid a4">·</div>
+                <div className="asteroid a5">·</div>
+                <div className="asteroid a6">·</div>
+              </div>
+              
+              {/* Reference lines */}
+              <div className="geo-line line-1"></div>
+              <div className="geo-line line-2"></div>
+              <div className="geo-line line-3"></div>
+              <div className="geo-line line-4"></div>
+              
+              {/* Measurement markers */}
+              <div className="geo-cross"></div>
+              <div className="degree-marker m1">0°</div>
+              <div className="degree-marker m2">90°</div>
+              <div className="degree-marker m3">180°</div>
+              <div className="degree-marker m4">270°</div>
+              
+              {/* Corner annotations */}
+              <div className="corner-label label-tl">Kepler's Map</div>
+              <div className="corner-label label-br">c. 1609</div>
+            </div>
+          </div>
+
+          <div className="post hero-section">
             <div className="post-content">
               <p>
                 $ whoami<br/>
@@ -146,47 +235,138 @@ export default function Home({ themeToggleButton }) {
           </div>
 
           <div>
-            <h3 className="post-section-title">Featured Blog Posts</h3>
+            <h3 className="post-section-title">
+              Recent Thoughts
+            </h3>
             {entries.blogs.length === 0 ? (
-              <div className="post">
-                <p className="post-content">No blog posts yet. Create your first post!</p>
+              <div className="blog-card-empty">
+                <p>No thoughts yet. Create your first post!</p>
               </div>
             ) : (
-              entries.blogs.slice(0, 7).map(blog => (
-                <div key={blog._id} className="post">
-                  <h2 className="post-title">
-                    <a 
-                      href={`/blog/${blog._id}`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        navigate(`/blog/${blog._id}`);
-                      }}
-                      className="post-title-link"
+              <div className="blog-cards-grid">
+                {entries.blogs.slice(0, 6).map((blog, index) => {
+                  // Ancient symbols - all approximately same size
+                  const symbols = [
+                    '◉', // Circled dot
+                    '◈', // Diamond with cross
+                    '⬢', // Hexagon
+                    '◐', // Half circle (moon phase)
+                    '◑', // Inverted half circle
+                    '◓', // Circle with quadrant
+                    '⊙', // Circled dot operator
+                    '⊚', // Circled ring
+                    '⊛', // Circled asterisk
+                    '☥', // Ankh
+                    '⚶', // Trigram
+                    '⚸', // Trigram
+                    '◆', // Filled diamond
+                    '◇', // Empty diamond
+                    '●', // Filled circle
+                    '○', // Empty circle
+                    '■', // Filled square
+                    '□', // Empty square
+                    '▲', // Filled triangle
+                    '△', // Empty triangle
+                    '⬟', // Pentagon
+                    '⬠', // Pentagon outline
+                    '⬡', // Hexagon outline
+                    '◬', // Square with dots
+                    '⊗'  // Circled times
+                  ];
+                  
+                  // Deterministic symbol based on blog ID (consistent across renders)
+                  const symbolIndex = blog._id ? String(blog._id).charCodeAt(0) % symbols.length : index % symbols.length;
+                  const blogSymbol = symbols[symbolIndex];
+                  
+                  return (
+                    <div 
+                      key={blog._id} 
+                      className="blog-card"
+                      onClick={() => navigate(`/thoughts/${blog._id}`)}
                     >
-                      {blog.title}
-                    </a>
-                  </h2>
-                  <div className="post-date">{new Date(blog.date).toLocaleDateString()}</div>
-                  <div className="post-content">
-                    <p>{blog.content.substring(0, 300)}...</p>
-                    <p>
-                      <a 
-                        href={`/blog/${blog._id}`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          navigate(`/blog/${blog._id}`);
-                        }}
-                        className="read-more-link"
-                      >
-                        Continue reading →
-                      </a>
-                    </p>
-                  </div>
-                </div>
-              ))
+                      <div className="blog-card-icon">{blogSymbol}</div>
+                      <h2 className="blog-card-title">{blog.title}</h2>
+                      <div className="blog-card-date">{new Date(blog.date).toLocaleDateString()}</div>
+                      <div className="blog-card-excerpt">
+                        {blog.content.replace(/<[^>]*>/g, '').substring(0, 150)}...
+                      </div>
+                      <div className="blog-card-footer">
+                        <span className="blog-card-link">Read →</span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             )}
           </div>
         </div>
+        <aside className="homepage-sidebar">
+          <div className="sidebar-section">
+            <h3 className="sidebar-section-title">
+              Latest Logs
+            </h3>
+            <p className="sidebar-section-text">What I've been consuming lately</p>
+            <ul className="sidebar-list">
+              {['games','movies','series','books'].map(cat => {
+                const slice = (entries[cat] || []).slice(0,3);
+                if (slice.length === 0) return null;
+                return (
+                  <li key={cat} className="sidebar-list-block">
+                    <div className="sidebar-list-heading">{cat}</div>
+                    <ul className="sidebar-sublist">
+                      {slice.map(item => (
+                        <li key={item._id || item.id} className="sidebar-sublist-item">
+                          <span className="sidebar-item-title">{item.title}</span>
+                          {item.rating && (
+                            <span className="sidebar-item-meta">{item.rating}/5</span>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+          
+          <div className="sidebar-section">
+            <h3 className="sidebar-section-title">
+              Quick Links
+            </h3>
+            <ul className="sidebar-quick-links">
+              <li>
+                <a href="/thoughts" onClick={(e) => { e.preventDefault(); navigate('/thoughts'); }}>
+                  All Thoughts →
+                </a>
+              </li>
+              <li>
+                <a href="/myverse" onClick={(e) => { e.preventDefault(); navigate('/myverse'); }}>
+                  Myverse →
+                </a>
+              </li>
+              <li>
+                <a href="/whoami" onClick={(e) => { e.preventDefault(); navigate('/whoami'); }}>
+                  About Me →
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div className="sidebar-section">
+            <h3 className="sidebar-section-title">
+              Status
+            </h3>
+            <div className="sidebar-status">
+              <div className="status-indicator">
+                <span className="status-dot"></span>
+                <span>Currently online</span>
+              </div>
+              <p className="sidebar-section-text">
+                Building in public, learning in public, failing in public.
+              </p>
+            </div>
+          </div>
+        </aside>
       </div>
     );
   };
@@ -238,6 +418,7 @@ export default function Home({ themeToggleButton }) {
                     setMobileMenuOpen(false);
                   }}
                   className={activePage === item.id ? 'nav-link-active' : 'nav-link'}
+                  data-symbol={item.symbol}
                 >
                   {item.name}
                 </a>
@@ -256,15 +437,76 @@ export default function Home({ themeToggleButton }) {
             <AdminPanel />
           ) : isBlogPostPage ? (
             <BlogPost />
+          ) : isLogDetailPage ? (
+            <LogDetail />
           ) : (
             <>
               {activePage === 'home' && renderHomePage()}
-              {activePage === 'blogs' && <BlogsPage entries={entries.blogs} />}
-              {activePage === 'about' && <AboutPage />}
+              {activePage === 'thoughts' && <ThoughtsPage />}
+              {activePage === 'myverse' && renderLibraryPage()}
+              {activePage === 'fieldnotes' && <FieldnotesPage />}
+              {activePage === 'lab' && <LabPage />}
+              {activePage === 'whoami' && <WhoamiPage />}
             </>
           )}
         </main>
       </div>
+
+      <footer className="footer">
+        <div className="footer-container">
+          <div className="footer-section">
+            <div className="footer-brand">
+              <span className="footer-title">01100101</span>
+              <span className="footer-subtitle">thoughts and chaos</span>
+            </div>
+            <p className="footer-text">
+              My corner of the internet where I document thoughts, code, and everything in between.
+            </p>
+          </div>
+
+          <div className="footer-section">
+            <h4 className="footer-heading">
+              <span className="footer-symbol">△</span>
+              Navigate
+            </h4>
+            <ul className="footer-links">
+              <li><a href="/" onClick={(e) => { e.preventDefault(); navigate('/'); }}>Home</a></li>
+              <li><a href="/thoughts" onClick={(e) => { e.preventDefault(); navigate('/thoughts'); }}>Thoughts</a></li>
+              <li><a href="/myverse" onClick={(e) => { e.preventDefault(); navigate('/myverse'); }}>Myverse</a></li>
+              <li><a href="/whoami" onClick={(e) => { e.preventDefault(); navigate('/whoami'); }}>Whoami</a></li>
+            </ul>
+          </div>
+
+          <div className="footer-section">
+            <h4 className="footer-heading">
+              <span className="footer-symbol">⊙</span>
+              Connect
+            </h4>
+            <ul className="footer-links">
+              <li><a href="https://github.com/karthi209" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+              <li><a href="https://x.com/notkarthik" target="_blank" rel="noopener noreferrer">X / Twitter</a></li>
+              <li><a href="mailto:hello@example.com">Email</a></li>
+            </ul>
+          </div>
+
+          <div className="footer-section">
+            <h4 className="footer-heading">
+              <span className="footer-symbol">□</span>
+              Meta
+            </h4>
+            <ul className="footer-links">
+              <li><a href="/admin" onClick={(e) => { e.preventDefault(); navigate('/admin'); }}>Admin</a></li>
+              <li><a href="https://github.com/karthi209/notkarthik" target="_blank" rel="noopener noreferrer">Source Code</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="footer-bottom">
+          <p className="footer-copyright">
+            © {new Date().getFullYear()} definitely not karthik. Built with caffeine and curiosity.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }

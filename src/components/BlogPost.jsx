@@ -13,7 +13,15 @@ export default function BlogPost() {
   const [error, setError] = useState(null);
 
   // Extract ID from URL pathname if not in params (fallback for catch-all routes)
-  const id = paramId || location.pathname.replace('/blog/', '');
+  const id = paramId || location.pathname.replace('/blog/', '').replace('/thoughts/', '');
+
+  // Ancient symbol for the post (randomized based on ID for consistency)
+  const symbols = [
+    '◉', '◈', '⬢', '◐', '◑', '◓', '⊙', '⊚', '⊛', '☥', '⚶', '⚸',
+    '◆', '◇', '●', '○', '■', '□', '▲', '△', '⬟', '⬠', '⬡', '◬', '⊗'
+  ];
+  // Use ID to deterministically pick a symbol for this post
+  const postSymbol = symbols[id ? String(id).charCodeAt(0) % symbols.length : 0];
 
   useEffect(() => {
     // Reset state when ID changes
@@ -60,10 +68,12 @@ export default function BlogPost() {
 
   if (loading) {
     return (
-      <div className="post">
-        <h2 className="post-title">Loading...</h2>
-        <div className="post-content">
-          <p>Fetching blog post...</p>
+      <div className="container">
+        <div className="post">
+          <h2 className="post-title">Loading...</h2>
+          <div className="post-content">
+            <p>Fetching blog post...</p>
+          </div>
         </div>
       </div>
     );
@@ -71,49 +81,57 @@ export default function BlogPost() {
 
   if (error) {
     return (
-      <div className="post">
-        <h2 className="post-title">Error</h2>
-        <div className="post-content">
-          <p>{error}</p>
-          <p>
-            The blog post you're looking for might have been removed or doesn't exist.
-          </p>
-          <p>
-            <a 
-              href="/"
-              onClick={(e) => {
-                e.preventDefault();
-                navigate('/');
-              }}
-              className="read-more-link"
-            >
-              ← Back to home
-            </a>
-          </p>
+      <div className="container">
+        <div className="post">
+          <h2 className="post-title">Error</h2>
+          <div className="post-content">
+            <p>{error}</p>
+            <p>
+              The blog post you're looking for might have been removed or doesn't exist.
+            </p>
+            <p>
+              <a 
+                href="/thoughts"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate('/thoughts');
+                }}
+                className="read-more-link"
+              >
+                ← Back to thoughts
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div>
-      <div className="post">
-        <a 
-          href="/"
-          onClick={(e) => {
-            e.preventDefault();
-            navigate('/');
-          }}
-          className="read-more-link"
-          style={{ marginBottom: 'var(--space-md)', display: 'inline-block' }}
-        >
-          ← Back to home
-        </a>
-      </div>
-      <article className="post">
-        <h1 className="post-title">{post.title}</h1>
-        <div className="post-date">
-          Posted on {new Date(post.date).toLocaleDateString()} in {post.category}
+    <div className="container">
+      <article className="post blog-post-article">
+        <div className="blog-post-nav">
+          <a 
+            href="/thoughts"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate('/thoughts');
+            }}
+            className="back-link"
+            title="Back to thoughts"
+          >
+            ◀
+          </a>
+        </div>
+        <div className="blog-post-header">
+          <div className="blog-post-symbol-top">{postSymbol}</div>
+          <h1 className="post-title">{post.title}</h1>
+          <div className="post-metadata-group">
+            <span className="post-date">
+              {new Date(post.date).toLocaleDateString()}
+            </span>
+            <span className="post-category-badge">{post.category}</span>
+          </div>
         </div>
         <div className="post-content">
           <div 
@@ -126,14 +144,10 @@ export default function BlogPost() {
           />
         </div>
         <footer className="post-footer">
-          <div className="post-footer-main">
-            <div>
-              Filed under: <span style={{ fontFamily: 'var(--font-body)' }}>{post.category}</span>
-            </div>
-          </div>
           {post.tags && post.tags.length > 0 && (
             <div className="post-footer-tags">
-              Tags: {post.tags.join(', ')}
+              <span className="section-symbol-small">⊙</span>
+              <span>Tags: {post.tags.join(', ')}</span>
             </div>
           )}
         </footer>

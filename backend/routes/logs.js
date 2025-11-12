@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
 router.get('/:type', async (req, res) => {
   try {
     const { type } = req.params;
-    const validTypes = ['games', 'movies', 'series', 'books'];
+    const validTypes = ['music', 'games', 'movies', 'series', 'books'];
     
     if (!validTypes.includes(type)) {
       return res.status(400).json({ message: 'Invalid log type' });
@@ -38,6 +38,38 @@ router.get('/:type', async (req, res) => {
   }
 });
 
+// Get single log by type and ID
+router.get('/:type/:id', async (req, res) => {
+  try {
+    const { type, id } = req.params;
+    const validTypes = ['music', 'games', 'movies', 'series', 'books'];
+    
+    if (!validTypes.includes(type)) {
+      return res.status(400).json({ message: 'Invalid log type' });
+    }
+
+    const logId = parseInt(id);
+    if (isNaN(logId)) {
+      return res.status(400).json({ message: 'Invalid log ID format' });
+    }
+
+    const result = await pool.query(
+      'SELECT * FROM logs WHERE type = $1 AND id = $2',
+      [type, logId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Log not found' });
+    }
+
+    const log = { ...result.rows[0], _id: result.rows[0].id, category: result.rows[0].type };
+    res.json(log);
+  } catch (err) {
+    console.error('Error fetching log:', err);
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // Add new log
 router.post('/', authenticateApiKey, async (req, res) => {
   try {
@@ -50,7 +82,7 @@ router.post('/', authenticateApiKey, async (req, res) => {
       });
     }
 
-    const validTypes = ['games', 'movies', 'series', 'books'];
+    const validTypes = ['music', 'games', 'movies', 'series', 'books'];
     if (!validTypes.includes(type)) {
       return res.status(400).json({ message: 'Invalid log type' });
     }
