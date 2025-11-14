@@ -142,14 +142,15 @@ jobs:
           fi
           echo "FRONTEND_VERSION_TO_DEPLOY=$FRONTEND_VERSION_TO_DEPLOY" >> $GITHUB_ENV
 
-      - name: Setup SSH Agent
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_KEY }}
+      - name: Decode SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" | base64 --decode > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
 
       - name: Deploy frontend Docker container to production server
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_IP }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa  ${{ secrets.SSH_USER }}@${{ secrets.SSH_IP }} << 'EOF'
             docker stop frontend-zerosandones || true
             docker rm frontend-zerosandones || true
             docker rmi $(docker images ghcr.io/${{ github.repository_owner }}/zerosandones/frontend -q) || true
@@ -214,14 +215,15 @@ jobs:
           fi
           echo "BACKEND_VERSION_TO_DEPLOY=$BACKEND_VERSION_TO_DEPLOY" >> $GITHUB_ENV
 
-      - name: Setup SSH Agent
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_KEY }}
+      - name: Decode SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" | base64 --decode > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
 
       - name: Deploy backend Docker container to production server
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_IP }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_IP }} << 'EOF'
             docker stop backend-zerosandones || true
             docker rm backend-zerosandones  || true
             docker rmi $(docker images ghcr.io/${{ github.repository_owner }}/zerosandones/backend -q) || true
